@@ -626,13 +626,18 @@ function remLanc(id){
 
   fetch("https://script.google.com/macros/s/AKfycbyfQp9hbEl_rkwHRdUhrDR9ZDnbwKuYK0eDH1uYV3uQj0pewg8lPIkpz4tLUOBNFSK1mg/exec", {
     method: "POST",
-    body: JSON.stringify({ id: id })
+    body: JSON.stringify({
+      acao: "deletar",
+      id: id
+    })
   })
   .then(res => res.text())
   .then(res => {
     alert("Apagado!");
     location.reload();
   });
+
+}
 
 }
 /* INIT */
