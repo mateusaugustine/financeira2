@@ -608,7 +608,7 @@ function renderLanc(){
       <span class="tag ${l.tipo==='receita'?'tag-g':'tag-r'}">${l.tipo==='receita'?'Receita':'Despesa'}</span>
       <span style="flex:1">${l.desc} <span style="color:var(--muted);font-size:11px">${l.cat} · ${l.dia}/${l.mes}</span></span>
       <span style="font-family:var(--mono);color:${l.tipo==='receita'?'var(--accent2)':'var(--red)'}">${fmt(l.valor)}</span>
-      <button class="btn-sm" onclick="remLanc(${i})">×</button>
+      <button class="btn-sm" onclick="remLanc('${l.id}')"">×</button>
     </div>`;
   }).join('');
 }
@@ -616,12 +616,25 @@ function addLanc(){
   const desc=document.getElementById('l-desc').value.trim(),val=parseFloat(document.getElementById('l-valor').value),tipo=document.getElementById('l-tipo').value,cat=document.getElementById('l-cat').value;
   const d=new Date(),mes=document.getElementById('l-mes').value||(d.getMonth()+1+'/'+d.getFullYear()),dia=parseInt(document.getElementById('l-dia').value)||d.getDate();
   if(!desc||!val)return;
-  D.lancamentos.push({id:nextId(),desc,tipo,cat,valor:val,mes,dia});
+  D.lancamentos.push({id:date.now(),desc,tipo,cat,valor:val,mes,dia});
   salvarLocal();renderLanc();popularMesSel();popularAnoSel();
   ['l-desc','l-valor'].forEach(id=>document.getElementById(id).value='');
 }
-function remLanc(i){D.lancamentos.splice(i,1);salvarLocal();renderLanc();}
+function remLanc(id){
 
+  if(!confirm("Tem certeza que deseja excluir?")) return;
+
+  fetch("https://script.google.com/macros/s/AKfycbyfQp9hbEl_rkwHRdUhrDR9ZDnbwKuYK0eDH1uYV3uQj0pewg8lPIkpz4tLUOBNFSK1mg/exec", {
+    method: "POST",
+    body: JSON.stringify({ id: id })
+  })
+  .then(res => res.text())
+  .then(res => {
+    alert("Apagado!");
+    location.reload();
+  });
+
+}
 /* INIT */
 window.onload=()=>{
   const d=new Date();
