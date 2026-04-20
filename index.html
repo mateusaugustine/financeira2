@@ -616,7 +616,7 @@ function addLanc(){
   const desc=document.getElementById('l-desc').value.trim(),val=parseFloat(document.getElementById('l-valor').value),tipo=document.getElementById('l-tipo').value,cat=document.getElementById('l-cat').value;
   const d=new Date(),mes=document.getElementById('l-mes').value||(d.getMonth()+1+'/'+d.getFullYear()),dia=parseInt(document.getElementById('l-dia').value)||d.getDate();
   if(!desc||!val)return;
-  D.lancamentos.push({id:date.now(),desc,tipo,cat,valor:val,mes,dia});
+  D.lancamentos.push({id: Date.now(),desc,tipo,cat,valor:val,mes,dia});
   salvarLocal();renderLanc();popularMesSel();popularAnoSel();
   ['l-desc','l-valor'].forEach(id=>document.getElementById(id).value='');
 }
